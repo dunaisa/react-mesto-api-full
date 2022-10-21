@@ -1,0 +1,31 @@
+.popup__infotool {
+  padding: 60px 36px;
+  background-color: #FFFFFF;
+  box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  align-items: center;  
+  justify-content: space-between;
+  border-radius: 10px;
+  position: relative;
+}
+
+@media screen and (max-width: 595px) {
+  .popup__infotool {
+    padding: 40px 20px;
+    max-width: 340px;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .popup__infotool {
+    max-width: 300px;
+    padding: 25px 10px;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .popup__infotool {
+    padding: 20px 10px;
+  }
+}

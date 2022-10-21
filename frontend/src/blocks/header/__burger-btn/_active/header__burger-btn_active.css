@@ -1,0 +1,9 @@
+.header__burger-btn_active {
+  background-image: url(../../../../images/cross-header-btn.png);
+  display: block;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  background-repeat: no-repeat;
+  background-position: center center;
+}

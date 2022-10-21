@@ -1,0 +1,16 @@
+.element {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow: hidden;
+  box-sizing: border-box;
+  border-radius: 10px;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 282px 79px;
+  position: relative;
+}
+
+.element_disabled {
+  display: none;
+}

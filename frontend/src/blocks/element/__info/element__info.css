@@ -1,0 +1,11 @@
+.element__info {
+  width: 100%;
+  background-color: #FFFFFF;
+  display: grid;
+  padding: 25px 21px;
+  box-sizing: border-box;
+  grid-row: 2;
+  row-gap: 3px;
+  grid-template-columns: 210px 1fr;
+}
+

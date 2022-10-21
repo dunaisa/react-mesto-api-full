@@ -1,0 +1,12 @@
+.popup__infotool-icon {
+  max-width: 120px;
+  min-height: 120px;
+  object-fit: cover;
+  margin-bottom: 32px;
+}
+
+@media screen and (max-width: 425px) {
+  .popup__infotool-icon {
+    margin-bottom: 40px;
+  }
+}

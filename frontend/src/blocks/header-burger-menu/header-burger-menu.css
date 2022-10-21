@@ -1,0 +1,16 @@
+.header-burger-menu {
+  display: none;
+}
+
+@media screen and (max-width: 425px) {
+
+  .header-burger-menu_active {
+    transform: translate(0);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 20px;
+  }
+}
