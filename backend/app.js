@@ -22,7 +22,8 @@ const {
 const allowedCors = [
   'https://memesto.nomoredomains.icu',
   'http://memesto.nomoredomains.icu',
-  'localhost:3000'
+  'http://localhost',
+  'http://127.0.0.1'
 ];
 
 app.use(requestLogger);
