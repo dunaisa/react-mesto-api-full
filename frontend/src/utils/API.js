@@ -95,7 +95,7 @@ class Api {
 }
 
 export const api = new Api({
-  url: 'localhost:5555',
+  url: 'http://localhost:5555',
   headers: {
     authorization: 'c56e30dc-2883-4270-a59e-b2f7bae969c6',
     'Content-Type': 'application/json'
