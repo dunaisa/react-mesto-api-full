@@ -5,7 +5,7 @@ const { errors } = require('celebrate');
 
 const { auth } = require('./middlewares/auth');
 
-const { PORT = 3000 } = process.env;
+const { PORT = 5555 } = process.env;
 const app = express();
 
 app.use(bodyParser.json());
