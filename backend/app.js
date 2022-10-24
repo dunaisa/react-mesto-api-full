@@ -26,6 +26,8 @@ const allowedCors = [
   'http://127.0.0.1'
 ];
 
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.use(requestLogger);
 
 app.use('/', require('./routes/index'));
