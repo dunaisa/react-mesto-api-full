@@ -35,6 +35,10 @@ const allowedCors = [
 //   res.sendFile(path.join(__dirname + '/build/index.html'));
 //   //__dirname : It will resolve to your project folder.
 // });
+// подключаем главный роутер приложения на /api
+app.use('/api', require('../router'));
+
+// раздаём папку с собранным фронтендом
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(requestLogger);
