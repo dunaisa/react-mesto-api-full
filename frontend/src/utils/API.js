@@ -3,7 +3,7 @@ class Api {
     this._url = url;
     this._token = token;
     this._headers = {
-      // authorization: 'bfc6d56e-7e9e-491a-a278-c2e6d08bdc0b',
+      authorization: 'bfc6d56e-7e9e-491a-a278-c2e6d08bdc0b',
       "Accept": "application/json",
       'Content-Type': 'application/json'
     };
@@ -105,7 +105,7 @@ class Api {
 export const api = new Api({
   url: 'https://api.memesto.nomoredomains.icu',
   headers: {
-    // authorization: 'c56e30dc-2883-4270-a59e-b2f7bae969c6',
+    authorization: 'c56e30dc-2883-4270-a59e-b2f7bae969c6',
     "Accept": "application/json",
     'Content-Type': 'application/json'
   }
