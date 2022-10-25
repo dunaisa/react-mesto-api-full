@@ -16,6 +16,8 @@ const auth = (req, res, next) => {
   const token = authorization.replace('Bearer ', '');
   let payload;
 
+  console.log(NODE_ENV)
+
   try {
     // попытаемся верифицировать токен
     payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'super-strong-secret');

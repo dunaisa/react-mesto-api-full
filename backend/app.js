@@ -16,8 +16,8 @@ const app = express();
 const allowedCors = [
   'https://memesto.nomoredomains.icu/',
   'http://memesto.nomoredomains.icu/',
-  'http://localhost',
-  // 'http://127.0.0.1'
+  'http://localhost:7777',
+  'localhost: 127.0.0.1'
 ];
 
 // cors
@@ -44,10 +44,10 @@ app.use(function (req, res, next) {
   next();
 });
 
+mongoose.connect('mongodb://localhost:27017/mestodb');
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
-mongoose.connect('mongodb://localhost:27017/mestodb');
 
 const {
   ObjectNotFound,

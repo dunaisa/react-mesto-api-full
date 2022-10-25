@@ -12,6 +12,7 @@ class Api {
   }
 
   _getToken = () => {
+    console.log(localStorage.getItem('token'))
     localStorage.getItem('token');
   }
 

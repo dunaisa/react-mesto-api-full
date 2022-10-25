@@ -9,13 +9,15 @@ const checkResponse = (res) => {
   return Promise.reject(`Ошибка: ${res.status}`);
 }
 
-export const register = ({ password, email }) => {
+export const register = ({ password, email, token }) => {
+  console.log({ password, email })
   return fetch(`${BASE_URL}/signup`, {
     method: 'POST',
     mode: 'no-cors',
     headers: {
       "Accept": "application/json",
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      'Authorization': `Bearer ${token}`,
     },
     body: JSON.stringify({
       password: password,
