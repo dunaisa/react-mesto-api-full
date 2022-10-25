@@ -1,5 +1,4 @@
-const dotenv = require('dotenv').config();
-dotenv.config();
+require('dotenv').config();
 const express = require('express');
 // const cors = require('cors');
 const mongoose = require('mongoose');
@@ -18,7 +17,7 @@ const allowedCors = [
   'https://memesto.nomoredomains.icu/',
   'http://memesto.nomoredomains.icu/',
   'http://localhost',
-  'http://127.0.0.1'
+  // 'http://127.0.0.1'
 ];
 
 // cors
