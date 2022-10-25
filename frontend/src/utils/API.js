@@ -3,7 +3,7 @@ class Api {
     this._url = url;
     this._token = token;
     this._headers = {
-      authorization: 'bfc6d56e-7e9e-491a-a278-c2e6d08bdc0b',
+      // authorization: 'bfc6d56e-7e9e-491a-a278-c2e6d08bdc0b',
       "Accept": "application/json",
       'Content-Type': 'application/json'
     };
@@ -30,28 +30,28 @@ class Api {
 
   // Отправка карточек на сервер
 
-  setInitialCards(name, link) {
+  async setInitialCards(name, link) {
     const cardBody = {
       name: name,
       link: link
     }
-    return fetch(`${this._url}/cards`, {
+    const res = await fetch(`${this._url}/cards`, {
       method: 'POST',
       mode: 'no-cors',
       headers: this._headers,
       body: JSON.stringify(cardBody)
-    })
-      .then(this._checkResponse);
+    });
+    return this._checkResponse(res);
   }
 
   // Загрузка информации о пользователе с сервера
 
-  getInfo() {
-    return fetch(`${this._url}/users/me`, {
+  async getInfo() {
+    const res = await fetch(`${this._url}/users/me`, {
       mode: 'no-cors',
       headers: this._headers
-    })
-      .then(this._checkResponse);
+    });
+    return this._checkResponse(res);
   }
 
   // Загрузка информации о пользователе на сервер
