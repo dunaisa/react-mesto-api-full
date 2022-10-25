@@ -1,7 +1,7 @@
 const { NODE_ENV, JWT_SECRET } = process.env;
 const jwt = require('jsonwebtoken');
 
-console.log(process.env.NODE_ENV);
+console.log(NODE_ENV);
 
 const {
   UnauthorizedError,
