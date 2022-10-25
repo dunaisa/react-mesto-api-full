@@ -12,7 +12,9 @@ const checkResponse = (res) => {
 export const register = ({ password, email }) => {
   return fetch(`${BASE_URL}/signup`, {
     method: 'POST',
+    credentials: 'include',
     headers: {
+      "Accept": "application/json",
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
@@ -27,7 +29,9 @@ export const authorize = ({ password, email }) => {
   console.log({ password, email })
   return fetch(`${BASE_URL}/signin`, {
     method: 'POST',
+    credentials: 'include',
     headers: {
+      "Accept": "application/json",
       "Content-Type": "application/json"
     },
     body: JSON.stringify({

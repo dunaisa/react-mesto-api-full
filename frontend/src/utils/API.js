@@ -21,6 +21,7 @@ class Api {
 
   getInitialCards() {
     return fetch(`${this._url}/cards`, {
+      credentials: 'include',
       headers: this._headers
     })
       .then(this._checkResponse);
@@ -35,6 +36,7 @@ class Api {
     }
     return fetch(`${this._url}/cards`, {
       method: 'POST',
+      credentials: 'include',
       headers: this._headers,
       body: JSON.stringify(cardBody)
     })
@@ -45,6 +47,7 @@ class Api {
 
   getInfo() {
     return fetch(`${this._url}/users/me`, {
+      credentials: 'include',
       headers: this._headers
     })
       .then(this._checkResponse);
@@ -59,6 +62,7 @@ class Api {
     }
     return fetch(`${this._url}/users/me`, {
       method: 'PATCH',
+      credentials: 'include',
       headers: this._headers,
       body: JSON.stringify(userInfoBody)
     })
@@ -71,6 +75,7 @@ class Api {
     }
     return fetch(`${this._url}/users/me/avatar`, {
       method: 'PATCH',
+      credentials: 'include',
       headers: this._headers,
       body: JSON.stringify(userAvatarBody)
     })
@@ -80,6 +85,7 @@ class Api {
   toggleLike(cardId, isLiked) {
     return fetch(`${this._url}/cards/${cardId}/likes`, {
       method: isLiked ? 'DELETE' : 'PUT',
+      credentials: 'include',
       headers: this._headers,
     })
       .then(this._checkResponse);
@@ -88,6 +94,7 @@ class Api {
   deleteCard(cardId) {
     return fetch(`${this._url}/cards/${cardId}`, {
       method: 'DELETE',
+      credentials: 'include',
       headers: this._headers,
     })
       .then(this._checkResponse);
@@ -97,7 +104,7 @@ class Api {
 export const api = new Api({
   url: 'https://api.memesto.nomoredomains.icu',
   headers: {
-    authorization: 'c56e30dc-2883-4270-a59e-b2f7bae969c6',
+    // authorization: 'c56e30dc-2883-4270-a59e-b2f7bae969c6',
     'Content-Type': 'application/json'
   }
 });
