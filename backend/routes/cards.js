@@ -9,28 +9,28 @@ const {
   dislikeCard,
 } = require('../controllers/cards');
 
-router.get('/api/cards', getCards);
+router.get('/cards', getCards);
 
-router.post('/api/cards', celebrate({
+router.post('/cards', celebrate({
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30),
     link: Joi.string().required().regex(/^(https?:\/\/)?([\w-]{1,32}\.[\w-]{1,32})[^\s@]*$/),
   }),
 }), createCard);
 
-router.delete('/api/cards/:cardId', celebrate({
+router.delete('/cards/:cardId', celebrate({
   params: Joi.object().keys({
     cardId: Joi.string().length(24).hex().required(),
   }),
 }), deleteCard);
 
-router.put('/api/cards/:cardId/likes', celebrate({
+router.put('/cards/:cardId/likes', celebrate({
   params: Joi.object().keys({
     cardId: Joi.string().length(24).hex().required(),
   }),
 }), likeCard);
 
-router.delete('/api/cards/:cardId/likes', celebrate({
+router.delete('/cards/:cardId/likes', celebrate({
   params: Joi.object().keys({
     cardId: Joi.string().required().length(24),
   }),

@@ -6,7 +6,7 @@ const {
   login,
 } = require('../controllers/users');
 
-router.post('/api/signup', celebrate({
+router.post('/signup', celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30),
     about: Joi.string().min(2).max(30),
@@ -16,7 +16,7 @@ router.post('/api/signup', celebrate({
   }),
 }), createUser);
 
-router.post('/api/signin', celebrate({
+router.post('/signin', celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
     password: Joi.string().required(),

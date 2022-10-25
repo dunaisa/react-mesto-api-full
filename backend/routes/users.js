@@ -10,23 +10,23 @@ const {
   getCurrentUser,
 } = require('../controllers/users');
 
-router.get('/api/users', auth, getUsers);
-router.get('/api/users/me', getCurrentUser);
+router.get('/users', auth, getUsers);
+router.get('/users/me', getCurrentUser);
 
-router.get('/api/users/:userId', celebrate({
+router.get('/users/:userId', celebrate({
   params: Joi.object().keys({
     userId: Joi.string().length(24).hex().required(),
   }),
 }), findUser);
 
-router.patch('/api/users/me', celebrate({
+router.patch('/users/me', celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30),
     about: Joi.string().min(2).max(30),
   }),
 }), updateUserInfo);
 
-router.patch('/api/users/me/avatar', celebrate({
+router.patch('/users/me/avatar', celebrate({
   body: Joi.object().keys({
     avatar: Joi.string().regex(/^(https?:\/\/)?([\w-]{1,32}\.[\w-]{1,32})[^\s@]*$/),
   }),
