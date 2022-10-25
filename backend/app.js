@@ -12,16 +12,6 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { PORT = 3000 } = process.env;
 const app = express();
 // app.use(cors());
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
-mongoose.connect('mongodb://localhost:27017/mestodb');
-
-const {
-  ObjectNotFound,
-} = require('./Components/ObjectNotFound');
-
 const allowedCors = [
   'https://memesto.nomoredomains.icu/',
   'http://memesto.nomoredomains.icu/',
@@ -29,6 +19,7 @@ const allowedCors = [
   'http://127.0.0.1'
 ];
 
+// cors
 app.use(function (req, res, next) {
   const { method } = req;
   const { origin } = req.headers; // Сохраняем источник запроса в переменную origin
@@ -51,6 +42,15 @@ app.use(function (req, res, next) {
 
   next();
 });
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+mongoose.connect('mongodb://localhost:27017/mestodb');
+
+const {
+  ObjectNotFound,
+} = require('./Components/ObjectNotFound');
 
 // app.use(express.static('build'));
 
