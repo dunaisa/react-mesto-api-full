@@ -1,8 +1,8 @@
 const express = require('express');
+const cors = require('cors');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
-const cors = require('cors');
 const path = require('path');
 
 const { auth } = require('./middlewares/auth');
@@ -38,7 +38,7 @@ app.use(function (req, res, next) {
   // проверяем, что источник запроса есть среди разрешённых
   if (allowedCors.includes(origin)) {
     res.header('Access-Control-Allow-Origin', origin);
-    res.header('Access-Control-Allow-Origin', "*");
+    // res.header('Access-Control-Allow-Origin', "*");
     res.header('Access-Control-Allow-Credentials', true);
   }
 
