@@ -4,10 +4,15 @@ class Api {
     this._token = token;
     this._headers = {
       // authorization: 'bfc6d56e-7e9e-491a-a278-c2e6d08bdc0b',
+      authorization: `Bearer ${this._getToken()}`,
       "Accept": "application/json",
       'Content-Type': 'application/json'
     };
 
+  }
+
+  _getToken = () => {
+    localStorage.get('jwt')
   }
 
   _checkResponse(res) {
