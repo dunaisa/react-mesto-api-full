@@ -23,8 +23,8 @@ const {
 } = require('./Components/ObjectNotFound');
 
 const allowedCors = [
-  'https://memesto.nomoredomains.icu',
-  'http://memesto.nomoredomains.icu',
+  'https://memesto.nomoredomains.icu/',
+  'http://memesto.nomoredomains.icu/',
   'http://localhost',
   'http://127.0.0.1'
 ];
