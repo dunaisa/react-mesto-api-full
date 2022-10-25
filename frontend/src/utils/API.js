@@ -3,7 +3,7 @@ class Api {
     this._url = url;
     this._token = token;
     this._headers = {
-      authorization: 'bfc6d56e-7e9e-491a-a278-c2e6d08bdc0b',
+      // authorization: 'bfc6d56e-7e9e-491a-a278-c2e6d08bdc0b',
       'Content-Type': 'application/json'
     };
 
