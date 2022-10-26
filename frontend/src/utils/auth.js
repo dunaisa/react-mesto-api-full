@@ -31,6 +31,7 @@ export const register = ({ password, email }) => {
   //     return res;
   //   }
   // })
+  // 
 };
 
 export const authorize = ({ password, email }) => {
