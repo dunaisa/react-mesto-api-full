@@ -3,16 +3,16 @@ class Api {
     this._url = url;
     this._token = token;
     this._headers = {
+      // 
       // authorization: 'bfc6d56e-7e9e-491a-a278-c2e6d08bdc0b',
-      'Authorization': `Bearer ${this._getToken()}`,
+      // 'Authorization': `Bearer ${this._getToken()}`,
       "Accept": "application/json",
       'Content-Type': 'application/json'
     };
-
+    console.log(this._headers)
   }
 
   _getToken = () => {
-    console.log(localStorage.getItem('token'))
     localStorage.getItem('token');
   }
 
@@ -29,7 +29,9 @@ class Api {
   getInitialCards() {
     return fetch(`${this._url}/cards`, {
       mode: 'no-cors',
-      headers: this._headers
+      headers: {
+        'Authorization': `Bearer ${this._getToken()}`,
+      }
     })
       .then(this._checkResponse);
   }
@@ -55,7 +57,9 @@ class Api {
   async getInfo() {
     const res = await fetch(`${this._url}/users/me`, {
       mode: 'no-cors',
-      headers: this._headers
+      headers: {
+        'Authorization': `Bearer ${this._getToken()}`,
+      },
     });
     return this._checkResponse(res);
   }
@@ -112,6 +116,7 @@ export const api = new Api({
   url: 'https://api.memesto.nomoredomains.icu',
   headers: {
     // authorization: 'c56e30dc-2883-4270-a59e-b2f7bae969c6',
+    // authorization: `Bearer ${localStorage.getItem('token')}`,
     "Accept": "application/json",
     'Content-Type': 'application/json'
   }

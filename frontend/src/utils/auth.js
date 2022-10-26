@@ -9,22 +9,28 @@ const checkResponse = (res) => {
   return Promise.reject(`Ошибка: ${res.status}`);
 }
 
-export const register = ({ password, email, token }) => {
+export const register = ({ password, email }) => {
   console.log({ password, email })
   return fetch(`${BASE_URL}/signup`, {
     method: 'POST',
     mode: 'no-cors',
     headers: {
       "Accept": "application/json",
-      "Content-Type": "application/json",
-      'Authorization': `Bearer ${token}`,
+      "Content-Type": "application/json"
     },
     body: JSON.stringify({
       password: password,
       email: email,
     })
   })
-    .then(checkResponse)
+    // .then(checkResponse)
+    .then((res) => {
+      console.log(res)
+      if (res.token) {
+        localStorage.setItem('token', res.token);
+        return res;
+      }
+    })
 };
 
 export const authorize = ({ password, email }) => {

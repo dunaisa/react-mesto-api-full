@@ -61,21 +61,21 @@ function App() {
   const [isCurrentUser, setCurrentUser] = useState('');
   const [cards, setCards] = useState([]);
 
-  useEffect(() => {
-    api.getInfo()
-      .then((res) => {
-        setCurrentUser(res);
-      })
-      .catch((err) => console.log(`${err}`))
-  }, [])
+  // useEffect(() => {
+  //   api.getInfo()
+  //     .then((res) => {
+  //       setCurrentUser(res);
+  //     })
+  //     .catch((err) => console.log(`${err}`))
+  // }, [])
 
-  useEffect(() => {
-    api.getInitialCards()
-      .then((res) => {
-        setCards(res);
-      })
-      .catch((err) => console.log(`${err}`))
-  }, [])
+  // useEffect(() => {
+  //   api.getInitialCards()
+  //     .then((res) => {
+  //       setCards(res);
+  //     })
+  //     .catch((err) => console.log(`${err}`))
+  // }, [])
 
   function handleCardLike(id, isLiked) {
     api.toggleLike(id, isLiked)
@@ -169,31 +169,57 @@ function App() {
       .catch((err) => console.log(`${err}`))
   }
 
+  // const [isCurrentUser, setCurrentUser] = useState('');
+  // const [cards, setCards] = useState([]);
+
+
+
   //Проверка на совпадение текущего токена с отправленным ранее при длит нахождении на стр
 
   useEffect(() => {
+    function tokenCheck() {
+      // если у пользователя есть токен в localStorage, 
+      // эта функция проверит, действующий он или нет
+      const jwt = localStorage.getItem('token');
+      if (jwt) {
+        // здесь будем проверять токен
+        auth.getContent(jwt)
+          .then((res) => {
+            if (res) {
+              setLoggedIn(true);
+              //Установим в хедере почту юзера
+              setUserEmail(res.data.email)
+              history.push('/');
+            }
+          })
+          .catch((err) => console.log(`${err}`))
+      }
+    }
     tokenCheck()
-  }, [loggedIn])
+  }, [loggedIn, history])
 
-  function tokenCheck() {
-    // если у пользователя есть токен в localStorage, 
-    // эта функция проверит, действующий он или нет
-    const jwt = localStorage.getItem('token');
-    if (jwt) {
-      // здесь будем проверять токен
-      auth.getContent(jwt)
+  useEffect(() => {
+    if (loggedIn) {
+      api.getInfo()
         .then((res) => {
-          if (res) {
-            setLoggedIn(true);
-            //Установим в хедере почту юзера
-            setUserEmail(res.data.email)
-            history.push('/');
-          }
+          setCurrentUser(res);
         })
         .catch((err) => console.log(`${err}`))
     }
-  }
-  console.log(localStorage)
+  }, [loggedIn])
+
+  useEffect(() => {
+    if (loggedIn) {
+      api.getInitialCards()
+        .then((res) => {
+          setCards(res);
+        })
+        .catch((err) => console.log(`${err}`))
+    }
+  }, [loggedIn])
+
+
+
   function signOut() {
     console.log(localStorage)
     localStorage.removeItem('token');
