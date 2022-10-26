@@ -15,18 +15,18 @@ export const register = ({ password, email }) => {
     method: 'POST',
     mode: 'no-cors',
     headers: {
-      "Accept": "application/json",
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
       password: password,
-      email: email,
+      email: email
     })
   })
-    // .then(checkResponse)
+    .then(checkResponse)
     .then((res) => {
       console.log(res)
       if (res.token) {
+        console.log(res.token)
         localStorage.setItem('token', res.token);
         return res;
       }
@@ -37,14 +37,14 @@ export const authorize = ({ password, email }) => {
   console.log({ password, email })
   return fetch(`${BASE_URL}/signin`, {
     method: 'POST',
-    mode: 'no-cors',
+    redirect: "manual",
     headers: {
       "Accept": "application/json",
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
       password,
-      email,
+      email
     })
   })
     .then(checkResponse)

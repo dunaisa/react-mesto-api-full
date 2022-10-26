@@ -135,7 +135,8 @@ function App() {
 
   const history = useHistory();
 
-  function handleOnRegister({ password, email }) {
+  const handleOnRegister = React.useCallback(({ password, email }) => {
+    console.log({ password, email })
     auth.register({ password, email })
       .then((res) => {
         console.log(res)
@@ -148,7 +149,7 @@ function App() {
       })
       .catch(() => { setIsError(true) })
       .catch((err) => console.log(`${err}`))
-  }
+  }, [history])
 
   function handleOnLogin({ password, email }) {
     auth.authorize({ password, email })
@@ -172,8 +173,6 @@ function App() {
   // const [isCurrentUser, setCurrentUser] = useState('');
   // const [cards, setCards] = useState([]);
 
-
-
   //Проверка на совпадение текущего токена с отправленным ранее при длит нахождении на стр
 
   useEffect(() => {
@@ -196,7 +195,7 @@ function App() {
       }
     }
     tokenCheck()
-  }, [loggedIn, history])
+  }, [history, loggedIn])
 
   useEffect(() => {
     if (loggedIn) {
@@ -217,8 +216,6 @@ function App() {
         .catch((err) => console.log(`${err}`))
     }
   }, [loggedIn])
-
-
 
   function signOut() {
     console.log(localStorage)
