@@ -1,7 +1,7 @@
 class Api {
   constructor({ url, token }) {
     this._url = url;
-    // this._token = token;
+    this._token = token;
     this._headers = {
       // 
       // authorization: 'bfc6d56e-7e9e-491a-a278-c2e6d08bdc0b',
@@ -9,7 +9,6 @@ class Api {
       "Accept": "application/json",
       'Content-Type': 'application/json'
     };
-    console.log(this._headers)
   }
 
   _getToken = () => {
@@ -17,7 +16,6 @@ class Api {
   }
 
   _checkResponse(res) {
-    console.log(res)
     if (res.ok) {
       return res.json();
     }
@@ -29,36 +27,39 @@ class Api {
 
   getInitialCards() {
     return fetch(`${this._url}/cards`, {
-      redirect: "manual",
-      headers: this._headers,
+      headers: {
+        authorization: `Bearer ${localStorage.getItem('token')}`,
+      }
     })
       .then(this._checkResponse);
   }
 
   // Отправка карточек на сервер
 
-  async setInitialCards(name, link) {
+  setInitialCards(name, link) {
     const cardBody = {
       name: name,
       link: link
     }
-    const res = await fetch(`${this._url}/cards`, {
+    return fetch(`${this._url}/cards`, {
       method: 'POST',
-      redirect: "manual",
-      headers: this._headers,
+      headers: {
+        authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
       body: JSON.stringify(cardBody)
-    });
-    return this._checkResponse(res);
+    })
+      .then(this._checkResponse);
   }
 
   // Загрузка информации о пользователе с сервера
 
-  async getInfo() {
-    const res = await fetch(`${this._url}/users/me`, {
-      redirect: "manual",
-      headers: this._headers,
-    });
-    return this._checkResponse(res);
+  getInfo() {
+    return fetch(`${this._url}/users/me`, {
+      headers: {
+        authorization: `Bearer ${localStorage.getItem('token')}`,
+      }
+    })
+      .then(this._checkResponse);
   }
 
   // Загрузка информации о пользователе на сервер
@@ -68,10 +69,12 @@ class Api {
       name: data.name,
       about: data.about,
     }
+    console.log(userInfoBody)
     return fetch(`${this._url}/users/me`, {
       method: 'PATCH',
-      redirect: "manual",
-      headers: this._headers,
+      headers: {
+        authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
       body: JSON.stringify(userInfoBody)
     })
       .then(this._checkResponse);
@@ -83,8 +86,9 @@ class Api {
     }
     return fetch(`${this._url}/users/me/avatar`, {
       method: 'PATCH',
-      redirect: "manual",
-      headers: this._headers,
+      headers: {
+        authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
       body: JSON.stringify(userAvatarBody)
     })
       .then(this._checkResponse);
@@ -93,8 +97,9 @@ class Api {
   toggleLike(cardId, isLiked) {
     return fetch(`${this._url}/cards/${cardId}/likes`, {
       method: isLiked ? 'DELETE' : 'PUT',
-      redirect: "manual",
-      headers: this._headers,
+      headers: {
+        authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
     })
       .then(this._checkResponse);
   }
@@ -102,7 +107,6 @@ class Api {
   deleteCard(cardId) {
     return fetch(`${this._url}/cards/${cardId}`, {
       method: 'DELETE',
-      redirect: "manual",
       headers: this._headers,
     })
       .then(this._checkResponse);

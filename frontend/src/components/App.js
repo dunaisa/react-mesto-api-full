@@ -98,7 +98,8 @@ function App() {
   function handleUpdateUser(data) {
     api.setInfo(data)
       .then((res) => {
-        setCurrentUser(res);
+        console.log({ name: res.data.name, about: res.data.about })
+        setCurrentUser({ name: res.data.name, about: res.data.about });
         closeAllPopups();
       })
       .catch((err) => console.log(`${err}`))
@@ -107,7 +108,8 @@ function App() {
   function handleUpdateAvatar(data) {
     api.setAvatar(data)
       .then((res) => {
-        setCurrentUser(res);
+        console.log(res.data.avatar)
+        setCurrentUser(res.data.avatar);
         closeAllPopups();
       })
       .catch((err) => console.log(`${err}`))
@@ -186,6 +188,7 @@ function App() {
           .then((res) => {
             if (res) {
               setLoggedIn(true);
+              console.log(res.data.email)
               //Установим в хедере почту юзера
               setUserEmail(res.data.email)
               history.push('/');
@@ -198,24 +201,24 @@ function App() {
   }, [history, loggedIn])
 
   useEffect(() => {
-    if (!loggedIn) {
-      api.getInfo()
-        .then((res) => {
-          setCurrentUser(res);
-        })
-        .catch((err) => console.log(`${err}`))
-    }
-  }, [loggedIn])
+
+    api.getInfo()
+      .then((res) => {
+        console.log(res)
+        setCurrentUser(res.data);
+      })
+      .catch((err) => console.log(`${err}`))
+
+  }, [])
 
   useEffect(() => {
-    if (!loggedIn) {
-      api.getInitialCards()
-        .then((res) => {
-          setCards(res);
-        })
-        .catch((err) => console.log(`${err}`))
-    }
-  }, [loggedIn])
+    api.getInitialCards()
+      .then((res) => {
+        setCards(res.data);
+      })
+      .catch((err) => console.log(`${err}`))
+
+  }, [])
 
   function signOut() {
     console.log(localStorage)
