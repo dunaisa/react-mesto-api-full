@@ -26,6 +26,7 @@ class Api {
   //Получение карточек с сервера
 
   getInitialCards() {
+    console.log('api get cards from server')
     return fetch(`${this._url}/cards`, {
       headers: {
         authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -41,6 +42,7 @@ class Api {
       name: name,
       link: link
     }
+    console.log('api set cards')
     return fetch(`${this._url}/cards`, {
       method: 'POST',
       headers: {
@@ -54,6 +56,7 @@ class Api {
   // Загрузка информации о пользователе с сервера
 
   getInfo() {
+    console.log('api get all info of user from server')
     return fetch(`${this._url}/users/me`, {
       headers: {
         authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -69,7 +72,7 @@ class Api {
       name: data.name,
       about: data.about,
     }
-    console.log(userInfoBody)
+    console.log('api set name and about of user')
     return fetch(`${this._url}/users/me`, {
       method: 'PATCH',
       headers: {
@@ -84,6 +87,7 @@ class Api {
     const userAvatarBody = {
       avatar: data.avatar,
     }
+    console.log('api set avatar of user')
     return fetch(`${this._url}/users/me/avatar`, {
       method: 'PATCH',
       headers: {

@@ -98,8 +98,11 @@ function App() {
   function handleUpdateUser(data) {
     api.setInfo(data)
       .then((res) => {
-        console.log({ name: res.data.name, about: res.data.about })
-        setCurrentUser({ name: res.data.name, about: res.data.about });
+
+        console.log('Уставновили name, about')
+        console.log(data)
+
+        setCurrentUser(data);
         closeAllPopups();
       })
       .catch((err) => console.log(`${err}`))
@@ -108,17 +111,17 @@ function App() {
   function handleUpdateAvatar(data) {
     api.setAvatar(data)
       .then((res) => {
-        console.log(res.data.avatar)
-        setCurrentUser(res.data.avatar);
+        console.log('Уставновили avatar')
+        setCurrentUser(data);
         closeAllPopups();
       })
       .catch((err) => console.log(`${err}`))
   }
 
   function handleAddPlaceSubmit(data) {
-    console.log(data)
     api.setInitialCards(data.name, data.link)
       .then((res) => {
+        console.log('work aaa place')
         setCards([res, ...cards]);
         closeAllPopups();
       })
@@ -187,8 +190,8 @@ function App() {
         auth.getContent(jwt)
           .then((res) => {
             if (res) {
+              console.log('work auth')
               setLoggedIn(true);
-              console.log(res.data.email)
               //Установим в хедере почту юзера
               setUserEmail(res.data.email)
               history.push('/');
@@ -201,24 +204,27 @@ function App() {
   }, [history, loggedIn])
 
   useEffect(() => {
+    if (loggedIn === true) {
+      api.getInfo()
+        .then((res) => {
+          console.log('получили юзера')
+          setCurrentUser(res.data);
+        })
+        .catch((err) => console.log(`${err}`))
+    }
 
-    api.getInfo()
-      .then((res) => {
-        console.log(res)
-        setCurrentUser(res.data);
-      })
-      .catch((err) => console.log(`${err}`))
-
-  }, [])
+  }, [loggedIn])
 
   useEffect(() => {
-    api.getInitialCards()
-      .then((res) => {
-        setCards(res.data);
-      })
-      .catch((err) => console.log(`${err}`))
-
-  }, [])
+    if (loggedIn === true) {
+      api.getInitialCards()
+        .then((res) => {
+          console.log('получили карточки')
+          setCards(res.data);
+        })
+        .catch((err) => console.log(`${err}`))
+    }
+  }, [loggedIn])
 
   function signOut() {
     console.log(localStorage)
