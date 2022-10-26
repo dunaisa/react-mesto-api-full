@@ -14,8 +14,8 @@ const { PORT = 3000 } = process.env;
 const app = express();
 // app.use(cors());
 const allowedCors = [
-  'https://memesto.nomoredomains.icu/',
-  'http://memesto.nomoredomains.icu/',
+  'https://api.memesto.nomoredomains.icu/',
+  'http://api.memesto.nomoredomains.icu/',
   'http://localhost:7777',
   'http://localhost: 127.0.0.1'
 ];
@@ -36,6 +36,7 @@ app.use(function (req, res, next) {
 
   if (method === 'OPTIONS') {
     // разрешаем кросс-доменные запросы любых типов (по умолчанию)
+    res.header('Access-Control-Allow-Origin', "*");
     res.header('Access-Control-Allow-Methods', DEFAULT_ALLOWED_METHODS);
     res.header('Access-Control-Allow-Headers', requestHeaders);
     return res.end();
