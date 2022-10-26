@@ -13,7 +13,7 @@ export const register = ({ password, email }) => {
   console.log({ password, email })
   return fetch(`${BASE_URL}/signup`, {
     method: 'POST',
-    mode: 'no-cors',
+    redirect: "manual",
     headers: {
       "Content-Type": "application/json",
     },
@@ -23,14 +23,14 @@ export const register = ({ password, email }) => {
     })
   })
     .then(checkResponse)
-    .then((res) => {
-      console.log(res)
-      if (res.token) {
-        console.log(res.token)
-        localStorage.setItem('token', res.token);
-        return res;
-      }
-    })
+  // .then((res) => {
+  //   console.log(res)
+  //   if (res.token) {
+  //     console.log(res.token)
+  //     localStorage.setItem('token', res.token);
+  //     return res;
+  //   }
+  // })
 };
 
 export const authorize = ({ password, email }) => {
@@ -60,7 +60,7 @@ export const authorize = ({ password, email }) => {
 export const getContent = (token) => {
   return fetch(`${BASE_URL}/users/me`, {
     method: 'GET',
-    mode: 'no-cors',
+    redirect: "manual",
     headers: {
       "Accept": "application/json",
       'Content-Type': 'application/json',

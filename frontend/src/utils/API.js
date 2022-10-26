@@ -29,9 +29,7 @@ class Api {
   getInitialCards() {
     return fetch(`${this._url}/cards`, {
       redirect: "manual",
-      headers: {
-        'Authorization': `Bearer ${this._getToken()}`,
-      }
+      headers: this._headers,
     })
       .then(this._checkResponse);
   }
@@ -45,7 +43,7 @@ class Api {
     }
     const res = await fetch(`${this._url}/cards`, {
       method: 'POST',
-      mode: 'no-cors',
+      redirect: "manual",
       headers: this._headers,
       body: JSON.stringify(cardBody)
     });
@@ -57,9 +55,7 @@ class Api {
   async getInfo() {
     const res = await fetch(`${this._url}/users/me`, {
       redirect: "manual",
-      headers: {
-        'Authorization': `Bearer ${this._getToken()}`,
-      },
+      headers: this._headers,
     });
     return this._checkResponse(res);
   }

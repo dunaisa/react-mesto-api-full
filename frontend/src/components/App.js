@@ -198,7 +198,7 @@ function App() {
   }, [history, loggedIn])
 
   useEffect(() => {
-    if (loggedIn) {
+    if (!loggedIn) {
       api.getInfo()
         .then((res) => {
           setCurrentUser(res);
@@ -208,7 +208,7 @@ function App() {
   }, [loggedIn])
 
   useEffect(() => {
-    if (loggedIn) {
+    if (!loggedIn) {
       api.getInitialCards()
         .then((res) => {
           setCards(res);
