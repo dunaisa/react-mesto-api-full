@@ -17,7 +17,9 @@ const allowedCors = [
   'https://memesto.nomoredomains.icu/',
   'http://memesto.nomoredomains.icu/',
   'http://localhost:7777',
-  'http://localhost: 127.0.0.1'
+  'https://localhost:7777',
+  'http://localhost: 127.0.0.1',
+  'localhost:127.0.0.1'
 ];
 
 // cors

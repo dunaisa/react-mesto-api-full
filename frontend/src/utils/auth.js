@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://api.memesto.nomoredomains.icu';
+export const BASE_URL = 'http://localhost:5555';
 
 const checkResponse = (res) => {
   if (res.ok) {
@@ -21,15 +21,6 @@ export const register = ({ password, email }) => {
     })
   })
     .then(checkResponse)
-  // .then((res) => {
-  //   console.log(res)
-  //   if (res.token) {
-  //     console.log(res.token)
-  //     localStorage.setItem('token', res.token);
-  //     return res;
-  //   }
-  // })
-  // 
 };
 
 export const authorize = ({ password, email }) => {
@@ -65,5 +56,5 @@ export const getContent = (token) => {
     }
   })
     .then(checkResponse)
-    .then(data => data)
+  // .then(data => data)
 }

@@ -22,7 +22,7 @@ const {
 // Возвращает всех пользователей
 const getUsers = (req, res, next) => {
   User.find({})
-    .then((users) => res.send({ data: users }))
+    .then((users) => res.send(users))
     .catch(next);
 };
 
@@ -55,7 +55,7 @@ const createUser = (req, res, next) => {
 const findUser = (req, res, next) => {
   User.findById(req.params.userId)
     .orFail(new ObjectNotFound('Пользователь не найден.'))
-    .then((user) => res.send({ data: user }))
+    .then((user) => res.send(user))
     .catch((errors) => {
       if (errors.name === 'CastError') {
         return next(new BadRequest(`${req.params.userId} не является валидным идентификатором пользователя.`));
@@ -67,9 +67,12 @@ const findUser = (req, res, next) => {
 // Обновляет профиль
 const updateUserInfo = (req, res, next) => {
   const { name, about } = req.body;
+
   User.findByIdAndUpdate(req.user._id, { name, about }, { new: true, runValidators: true })
     .orFail(new ObjectNotFound('Пользователь не найден.'))
-    .then((user) => res.send({ data: user }))
+    .then((user) => {
+      return res.send(user)
+    })
     .catch((errors) => {
       if (errors.name === 'ValidationError') {
         return next(new BadRequest('Переданы некорректные данные.'));
@@ -81,9 +84,10 @@ const updateUserInfo = (req, res, next) => {
 // Обновляет аватар
 const updateUserAvatar = (req, res, next) => {
   const { avatar } = req.body;
+  console.log(req.body)
   User.findByIdAndUpdate(req.user._id, { avatar }, { new: true, runValidators: true })
     .orFail(new ObjectNotFound('Пользователь не найден.'))
-    .then((user) => res.send({ data: user }))
+    .then((user) => res.send(user))
     .catch((errors) => {
       if (errors.name === 'ValidationError') {
         return next(new BadRequest('Переданы некорректные данные.'));
@@ -99,6 +103,7 @@ const login = (req, res, next) => {
 
   return User.findUserByCredentials(email, password)
     .then((user) => {
+      console.log(user)
       const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'super-strong-secret', { expiresIn: '7d' });
       // вернём токен
       res.send({ token });
@@ -115,7 +120,7 @@ const getCurrentUser = (req, res, next) => {
   User.findById(req.user._id)
     .orFail(new ObjectNotFound('Пользователь не найден.'))
     .populate()
-    .then((user) => res.send({ data: user }))
+    .then((user) => res.send(user))
     .catch(next);
 };
 
@@ -128,3 +133,4 @@ module.exports = {
   updateUserAvatar,
   getCurrentUser,
 };
+

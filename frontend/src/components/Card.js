@@ -6,7 +6,7 @@ function Card({ card, onCardClick, onCardLike, onCardDelete }) {
 
   const userContext = React.useContext(CurrentUserContext);
 
-  const { name, link, _id, owner: { _id: ownerId } } = card;
+  const { name, link, _id, owner } = card;
   const likes = card.likes.map((item) => item._id)
 
   function handleClick() {
@@ -14,7 +14,8 @@ function Card({ card, onCardClick, onCardLike, onCardDelete }) {
   }
 
   // Определяем, являемся ли мы владельцем текущей карточки
-  const isOwn = ownerId === userContext._id;
+  const isOwn = owner === userContext._id;
+
 
   // Определяем, есть ли у карточки лайк, поставленный текущим пользователем
   const isLiked = likes.includes(userContext._id);

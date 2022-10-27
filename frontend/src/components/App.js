@@ -58,8 +58,55 @@ function App() {
     setCardSelected({ isOpen: true, card: card });
   }
 
-  const [isCurrentUser, setCurrentUser] = useState('');
+  const [isCurrentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
+
+  //Проверка на совпадение текущего токена с отправленным ранее при длит нахождении на стр
+  const history = useHistory();
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  useEffect(() => {
+    function tokenCheck() {
+      // если у пользователя есть токен в localStorage, 
+      // эта функция проверит, действующий он или нет
+      const jwt = localStorage.getItem('token');
+      if (jwt) {
+        // здесь будем проверять токен
+        auth.getContent(jwt)
+          .then((res) => {
+            if (res) {
+              setLoggedIn(true);
+              //Установим в хедере почту юзера
+              setUserEmail(res.email)
+              history.push('/');
+            }
+          })
+          .catch((err) => console.log(`${err}`))
+      }
+    }
+    tokenCheck()
+  }, [history, loggedIn])
+
+  useEffect(() => {
+    if (loggedIn === true) {
+      api.getInfo()
+        .then((res) => {
+          setCurrentUser(res);
+        })
+        .catch((err) => console.log(`${err}`))
+    }
+
+  }, [loggedIn])
+
+  useEffect(() => {
+    if (loggedIn === true) {
+      api.getInitialCards()
+        .then((res) => {
+          setCards(res);
+        })
+        .catch((err) => console.log(`${err}`))
+    }
+  }, [loggedIn])
 
   // useEffect(() => {
   //   api.getInfo()
@@ -80,7 +127,10 @@ function App() {
   function handleCardLike(id, isLiked) {
     api.toggleLike(id, isLiked)
       .then((res) => {
-        setCards(cards.map((card) => (card._id === res._id ? res : card)))
+
+        setCards(cards.map((card) => {
+          return (card._id === res._id ? res : card)
+        }))
       })
       .catch((err) => console.log(`${err}`))
   }
@@ -96,13 +146,10 @@ function App() {
   //setCards((state) => state.filter((item) => item._id !== card._id));
 
   function handleUpdateUser(data) {
+    console.log(data)
     api.setInfo(data)
       .then((res) => {
-
-        console.log('Уставновили name, about')
-        console.log(data)
-
-        setCurrentUser(data);
+        setCurrentUser(res);
         closeAllPopups();
       })
       .catch((err) => console.log(`${err}`))
@@ -111,17 +158,15 @@ function App() {
   function handleUpdateAvatar(data) {
     api.setAvatar(data)
       .then((res) => {
-        console.log('Уставновили avatar')
-        setCurrentUser(data);
+        setCurrentUser(res);
         closeAllPopups();
       })
       .catch((err) => console.log(`${err}`))
   }
 
   function handleAddPlaceSubmit(data) {
-    api.setInitialCards(data.name, data.link)
+    api.setInitialCards(data)
       .then((res) => {
-        console.log('work aaa place')
         setCards([res, ...cards]);
         closeAllPopups();
       })
@@ -130,7 +175,7 @@ function App() {
 
   //Запросы на сервер авторизация/регистрация
 
-  const [loggedIn, setLoggedIn] = useState(false);
+  // const [loggedIn, setLoggedIn] = useState(false);
 
   //Отображение почты юзера в шапке
 
@@ -138,9 +183,9 @@ function App() {
   const [isAuth, setIsAuth] = useState(false);
   const [isError, setIsError] = useState(false);
 
-  const history = useHistory();
 
-  const handleOnRegister = React.useCallback(({ password, email }) => {
+
+  const handleOnRegister = ({ password, email }) => {
     console.log({ password, email })
     auth.register({ password, email })
       .then((res) => {
@@ -154,7 +199,7 @@ function App() {
       })
       .catch(() => { setIsError(true) })
       .catch((err) => console.log(`${err}`))
-  }, [history])
+  }
 
   function handleOnLogin({ password, email }) {
     auth.authorize({ password, email })
@@ -174,57 +219,6 @@ function App() {
       .catch(() => { setIsError(true) })
       .catch((err) => console.log(`${err}`))
   }
-
-  // const [isCurrentUser, setCurrentUser] = useState('');
-  // const [cards, setCards] = useState([]);
-
-  //Проверка на совпадение текущего токена с отправленным ранее при длит нахождении на стр
-
-  useEffect(() => {
-    function tokenCheck() {
-      // если у пользователя есть токен в localStorage, 
-      // эта функция проверит, действующий он или нет
-      const jwt = localStorage.getItem('token');
-      if (jwt) {
-        // здесь будем проверять токен
-        auth.getContent(jwt)
-          .then((res) => {
-            if (res) {
-              console.log('work auth')
-              setLoggedIn(true);
-              //Установим в хедере почту юзера
-              setUserEmail(res.data.email)
-              history.push('/');
-            }
-          })
-          .catch((err) => console.log(`${err}`))
-      }
-    }
-    tokenCheck()
-  }, [history, loggedIn])
-
-  useEffect(() => {
-    if (loggedIn === true) {
-      api.getInfo()
-        .then((res) => {
-          console.log('получили юзера')
-          setCurrentUser(res.data);
-        })
-        .catch((err) => console.log(`${err}`))
-    }
-
-  }, [loggedIn])
-
-  useEffect(() => {
-    if (loggedIn === true) {
-      api.getInitialCards()
-        .then((res) => {
-          console.log('получили карточки')
-          setCards(res.data);
-        })
-        .catch((err) => console.log(`${err}`))
-    }
-  }, [loggedIn])
 
   function signOut() {
     console.log(localStorage)

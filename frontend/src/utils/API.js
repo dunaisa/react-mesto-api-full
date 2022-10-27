@@ -1,14 +1,6 @@
 class Api {
-  constructor({ url, token }) {
+  constructor({ url }) {
     this._url = url;
-    this._token = token;
-    this._headers = {
-      // 
-      // authorization: 'bfc6d56e-7e9e-491a-a278-c2e6d08bdc0b',
-      // 'Authorization': `Bearer ${this._getToken()}`,
-      "Accept": "application/json",
-      'Content-Type': 'application/json'
-    };
   }
 
   _getToken = () => {
@@ -26,10 +18,12 @@ class Api {
   //Получение карточек с сервера
 
   getInitialCards() {
-    console.log('api get cards from server')
     return fetch(`${this._url}/cards`, {
+      method: 'GET',
       headers: {
         authorization: `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+        "Accept": "application/json"
       }
     })
       .then(this._checkResponse);
@@ -37,16 +31,17 @@ class Api {
 
   // Отправка карточек на сервер
 
-  setInitialCards(name, link) {
+  setInitialCards(data) {
     const cardBody = {
-      name: name,
-      link: link
+      name: data.name,
+      link: data.link
     }
-    console.log('api set cards')
     return fetch(`${this._url}/cards`, {
       method: 'POST',
       headers: {
         authorization: `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+        "Accept": "application/json"
       },
       body: JSON.stringify(cardBody)
     })
@@ -56,10 +51,11 @@ class Api {
   // Загрузка информации о пользователе с сервера
 
   getInfo() {
-    console.log('api get all info of user from server')
     return fetch(`${this._url}/users/me`, {
+      method: 'GET',
       headers: {
         authorization: `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json'
       }
     })
       .then(this._checkResponse);
@@ -73,10 +69,12 @@ class Api {
       about: data.about,
     }
     console.log('api set name and about of user')
+    console.log(userInfoBody)
     return fetch(`${this._url}/users/me`, {
       method: 'PATCH',
       headers: {
         authorization: `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify(userInfoBody)
     })
@@ -92,6 +90,7 @@ class Api {
       method: 'PATCH',
       headers: {
         authorization: `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify(userAvatarBody)
     })
@@ -103,6 +102,7 @@ class Api {
       method: isLiked ? 'DELETE' : 'PUT',
       headers: {
         authorization: `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json'
       },
     })
       .then(this._checkResponse);
@@ -111,14 +111,17 @@ class Api {
   deleteCard(cardId) {
     return fetch(`${this._url}/cards/${cardId}`, {
       method: 'DELETE',
-      headers: this._headers,
+      headers: {
+        authorization: `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json'
+      },
     })
       .then(this._checkResponse);
   }
 }
 
 export const api = new Api({
-  url: 'https://api.memesto.nomoredomains.icu',
+  url: 'http://localhost:5555',
   headers: {
     // authorization: 'c56e30dc-2883-4270-a59e-b2f7bae969c6',
     authorization: `Bearer ${localStorage.getItem('token')}`,

@@ -15,16 +15,23 @@ const {
 // Возвращает все карточки
 const getCards = (req, res, next) => {
   Card.find({})
-    .then((cards) => res.send({ data: cards }))
+    .populate(['likes', 'owner'])
+    .then((cards) => res.send(cards))
     .catch(next);
 };
 
 // Создает карточку
 const createCard = (req, res, next) => {
   const { name, link } = req.body;
-  const { _id } = req.user;
-  Card.create({ name, link, owner: _id })
-    .then((card) => res.send({ data: card }))
+  const owner = req.user._id;
+  console.log(req.body)
+  console.log(owner)
+  Card.create({ name, link, owner })
+    // .populate(['likes', 'owner'])
+    // .then((doc) => doc.populate(['owner', 'likes']))
+    .then((card) => {
+      return res.send(card)
+    })
     .catch((errors) => {
       if (errors.name === 'ValidationError') {
         return next(new BadRequest('Некорректные данные при создании карточки.'));
@@ -36,14 +43,13 @@ const createCard = (req, res, next) => {
 // Удаление карточки по id
 const deleteCard = (req, res, next) => {
   const ownerId = req.user._id;
-
   Card.findById(req.params.cardId)
     .orFail(new ObjectNotFound(`Карточка с указанным id ${req.params.cardId} не найдена.`))
     .then((card) => {
       if (card) {
         if (card.owner.toString() === ownerId) {
           card.delete()
-            .then(() => res.send({ data: card }))
+            .then(() => res.send(card))
             .catch(next);
         } else {
           next(new ForbiddenError(`Карточка с указанным id ${req.params.cardId} принадлежит другому пользователю.`));
@@ -67,8 +73,11 @@ const likeCard = (req, res, next) => {
     { $addToSet: { likes: req.user._id } },
     { new: true },
   )
+    .populate(['likes', 'owner'])
     .orFail(new ObjectNotFound('Передан несуществующий id карточки.'))
-    .then((card) => res.send({ data: card }))
+    .then((card) => {
+      return res.send(card)
+    })
     .catch((errors) => {
       if (errors.name === 'CastError') {
         return next(new BadRequest(`${req.params.cardId} не является валидным идентификатором карточки.`));
@@ -87,8 +96,11 @@ const dislikeCard = (req, res, next) => {
     { $pull: { likes: req.user._id } },
     { new: true },
   )
+    .populate(['likes', 'owner'])
     .orFail(new ObjectNotFound('Передан несуществующий id карточки.'))
-    .then((card) => res.send({ data: card }))
+    .then((card) => {
+      return res.send(card)
+    })
     .catch((errors) => {
       if (errors.name === 'CastError') {
         return next(new BadRequest(`${req.params.cardId} не является валидным идентификатором карточки.`));
