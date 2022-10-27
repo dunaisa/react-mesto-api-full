@@ -14,8 +14,10 @@ const { PORT = 3000 } = process.env;
 const app = express();
 // app.use(cors());
 const allowedCors = [
-  'https://memesto.nomoredomains.icu/',
-  'http://memesto.nomoredomains.icu/',
+  'https://memesto.nomoredomains.icu',
+  'http://memesto.nomoredomains.icu',
+  'https://api.memesto.nomoredomains.icu',
+  'http://api.memesto.nomoredomains.icu',
   'http://localhost:7777',
   'https://localhost:7777',
   'http://localhost: 127.0.0.1',
