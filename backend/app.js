@@ -1,6 +1,4 @@
-// require('dotenv').config();
 const express = require('express');
-// const cors = require('cors');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
@@ -34,8 +32,6 @@ app.use(function (req, res, next) {
   // проверяем, что источник запроса есть среди разрешённых
   if (allowedCors.includes(origin)) {
     res.header('Access-Control-Allow-Origin', origin);
-    // res.header('Access-Control-Allow-Origin', "*");
-    // res.header('Access-Control-Allow-Credentials', true);
   }
 
   if (method === 'OPTIONS') {
@@ -57,24 +53,15 @@ const {
   ObjectNotFound,
 } = require('./Components/ObjectNotFound');
 
-// app.use(express.static('build'));
-
-// // Serve the index.html for all the other requests so that the
-// // router in the JavaScript application can render the necessary components
-// app.get('*', function (req, res) {
-//   res.sendFile(path.join(__dirname + '/build/index.html'));
-//   //__dirname : It will resolve to your project folder.
-// });
-
-// раздаём папку с собранным фронтендом
-// app.use(express.static(path.join(__dirname, 'public')));
-// app.get("*", (req, res) => {
-//   res.sendFile(path.join(__dirname, "public", "index.html"));
-// });
-
 app.use(requestLogger);
 
 app.use(express.static(path.join(__dirname, 'build')));
+
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
 
 app.use('/', require('./routes/index'));
 

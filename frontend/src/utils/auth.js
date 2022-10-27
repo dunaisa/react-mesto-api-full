@@ -24,7 +24,6 @@ export const register = ({ password, email }) => {
 };
 
 export const authorize = ({ password, email }) => {
-  console.log({ password, email })
   return fetch(`${BASE_URL}/signin`, {
     method: 'POST',
     headers: {
@@ -43,7 +42,6 @@ export const authorize = ({ password, email }) => {
         return res;
       }
     })
-
 };
 
 export const getContent = (token) => {
@@ -56,5 +54,4 @@ export const getContent = (token) => {
     }
   })
     .then(checkResponse)
-  // .then(data => data)
 }

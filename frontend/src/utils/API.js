@@ -3,10 +3,6 @@ class Api {
     this._url = url;
   }
 
-  _getToken = () => {
-    localStorage.getItem('token');
-  }
-
   _checkResponse(res) {
     if (res.ok) {
       return res.json();
@@ -68,8 +64,6 @@ class Api {
       name: data.name,
       about: data.about,
     }
-    console.log('api set name and about of user')
-    console.log(userInfoBody)
     return fetch(`${this._url}/users/me`, {
       method: 'PATCH',
       headers: {
@@ -85,7 +79,6 @@ class Api {
     const userAvatarBody = {
       avatar: data.avatar,
     }
-    console.log('api set avatar of user')
     return fetch(`${this._url}/users/me/avatar`, {
       method: 'PATCH',
       headers: {
@@ -123,9 +116,7 @@ class Api {
 export const api = new Api({
   url: 'https://api.memesto.nomoredomains.icu',
   headers: {
-    // authorization: 'c56e30dc-2883-4270-a59e-b2f7bae969c6',
     authorization: `Bearer ${localStorage.getItem('token')}`,
-    // "Accept": "application/json",
     'Content-Type': 'application/json'
   }
 });

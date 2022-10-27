@@ -108,22 +108,6 @@ function App() {
     }
   }, [loggedIn])
 
-  // useEffect(() => {
-  //   api.getInfo()
-  //     .then((res) => {
-  //       setCurrentUser(res);
-  //     })
-  //     .catch((err) => console.log(`${err}`))
-  // }, [])
-
-  // useEffect(() => {
-  //   api.getInitialCards()
-  //     .then((res) => {
-  //       setCards(res);
-  //     })
-  //     .catch((err) => console.log(`${err}`))
-  // }, [])
-
   function handleCardLike(id, isLiked) {
     api.toggleLike(id, isLiked)
       .then((res) => {
@@ -146,7 +130,6 @@ function App() {
   //setCards((state) => state.filter((item) => item._id !== card._id));
 
   function handleUpdateUser(data) {
-    console.log(data)
     api.setInfo(data)
       .then((res) => {
         setCurrentUser(res);
@@ -175,15 +158,11 @@ function App() {
 
   //Запросы на сервер авторизация/регистрация
 
-  // const [loggedIn, setLoggedIn] = useState(false);
-
   //Отображение почты юзера в шапке
 
   const [userEmail, setUserEmail] = useState('');
   const [isAuth, setIsAuth] = useState(false);
   const [isError, setIsError] = useState(false);
-
-
 
   const handleOnRegister = ({ password, email }) => {
     console.log({ password, email })
