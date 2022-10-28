@@ -6,7 +6,7 @@ function Card({ card, onCardClick, onCardLike, onCardDelete }) {
 
   const userContext = React.useContext(CurrentUserContext);
 
-  const { name, link, _id, owner } = card;
+  const { name, link } = card;
   const likes = card.likes.map((item) => item._id)
 
   function handleClick() {
@@ -14,13 +14,13 @@ function Card({ card, onCardClick, onCardLike, onCardDelete }) {
   }
 
   // Определяем, являемся ли мы владельцем текущей карточки
-  const isOwn = owner._id === userContext._id;
+  const isOwn = card.owner === userContext._id;
 
   // Определяем, есть ли у карточки лайк, поставленный текущим пользователем
   const isLiked = likes.includes(userContext._id);
 
   function hadleLikeClick() {
-    onCardLike(_id, isLiked);
+    onCardLike(card._id, isLiked);
   }
 
   // Создаём переменную, которую после зададим в `className` для кнопки удаления
@@ -30,7 +30,7 @@ function Card({ card, onCardClick, onCardLike, onCardDelete }) {
   const cardLikeButtonClassName = `element__like-btn ${isLiked ? 'element__like-btn_active' : ''}`;
 
   function handleDeleteClick() {
-    onCardDelete(_id);
+    onCardDelete(card._id);
   }
 
   return (

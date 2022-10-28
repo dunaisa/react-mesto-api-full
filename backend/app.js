@@ -19,14 +19,14 @@ const allowedCors = [
   'http://localhost:7777',
   'https://localhost:7777',
   'http://localhost: 127.0.0.1',
-  'localhost:127.0.0.1'
+  'localhost:127.0.0.1',
 ];
 
 // cors
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
   const { method } = req;
   const { origin } = req.headers; // Сохраняем источник запроса в переменную origin
-  const DEFAULT_ALLOWED_METHODS = "GET,HEAD,PUT,PATCH,POST,DELETE";
+  const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
   const requestHeaders = req.headers['access-control-request-headers'];
 
   // проверяем, что источник запроса есть среди разрешённых
@@ -41,7 +41,7 @@ app.use(function (req, res, next) {
     return res.end();
   }
 
-  next();
+  return next();
 });
 
 mongoose.connect('mongodb://localhost:27017/mestodb');
@@ -70,15 +70,13 @@ app.use(auth);
 app.use('/', require('./routes/users'));
 app.use('/', require('./routes/cards'));
 
-app.use(errorLogger);
-
-app.use(errors());
-
-
-
 app.use('/*', (req, res, next) => {
   next(new ObjectNotFound('Запрашиваемый путь не существует.'));
 });
+
+app.use(errorLogger);
+
+app.use(errors());
 
 app.use((err, req, res, next) => {
   // если у ошибки нет статуса, выставляем 500

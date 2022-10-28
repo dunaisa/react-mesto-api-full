@@ -15,7 +15,6 @@ const {
 // Возвращает все карточки
 const getCards = (req, res, next) => {
   Card.find({})
-    .populate(['likes', 'owner'])
     .then((cards) => res.send(cards))
     .catch(next);
 };
@@ -24,12 +23,8 @@ const getCards = (req, res, next) => {
 const createCard = (req, res, next) => {
   const { name, link } = req.body;
   const owner = req.user._id;
-  console.log(req.body)
-  console.log(owner)
   Card.create({ name, link, owner })
-    .then((card) => {
-      return res.send(card)
-    })
+    .then((card) => res.send(card))
     .catch((errors) => {
       if (errors.name === 'ValidationError') {
         return next(new BadRequest('Некорректные данные при создании карточки.'));
@@ -71,18 +66,15 @@ const likeCard = (req, res, next) => {
     { $addToSet: { likes: req.user._id } },
     { new: true },
   )
-    .populate(['likes', 'owner'])
+    .populate(['likes'])
     .orFail(new ObjectNotFound('Передан несуществующий id карточки.'))
-    .then((card) => {
-      return res.send(card)
-    })
+    .then((card) => res.send(card))
     .catch((errors) => {
       if (errors.name === 'CastError') {
         return next(new BadRequest(`${req.params.cardId} не является валидным идентификатором карточки.`));
       }
       return next(errors);
     });
-  // .catch(next);
 };
 
 // Убрать лайк с карточки
@@ -94,11 +86,9 @@ const dislikeCard = (req, res, next) => {
     { $pull: { likes: req.user._id } },
     { new: true },
   )
-    .populate(['likes', 'owner'])
+    .populate(['likes'])
     .orFail(new ObjectNotFound('Передан несуществующий id карточки.'))
-    .then((card) => {
-      return res.send(card)
-    })
+    .then((card) => res.send(card))
     .catch((errors) => {
       if (errors.name === 'CastError') {
         return next(new BadRequest(`${req.params.cardId} не является валидным идентификатором карточки.`));

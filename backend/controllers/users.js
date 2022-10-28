@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const User = require('../models/user');
+
 const { NODE_ENV, JWT_SECRET } = process.env;
 
 const {
@@ -70,9 +71,7 @@ const updateUserInfo = (req, res, next) => {
 
   User.findByIdAndUpdate(req.user._id, { name, about }, { new: true, runValidators: true })
     .orFail(new ObjectNotFound('Пользователь не найден.'))
-    .then((user) => {
-      return res.send(user)
-    })
+    .then((user) => res.send(user))
     .catch((errors) => {
       if (errors.name === 'ValidationError') {
         return next(new BadRequest('Переданы некорректные данные.'));
@@ -84,7 +83,6 @@ const updateUserInfo = (req, res, next) => {
 // Обновляет аватар
 const updateUserAvatar = (req, res, next) => {
   const { avatar } = req.body;
-  console.log(req.body)
   User.findByIdAndUpdate(req.user._id, { avatar }, { new: true, runValidators: true })
     .orFail(new ObjectNotFound('Пользователь не найден.'))
     .then((user) => res.send(user))
@@ -103,7 +101,6 @@ const login = (req, res, next) => {
 
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      console.log(user)
       const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'super-strong-secret', { expiresIn: '7d' });
       // вернём токен
       res.send({ token });
@@ -133,4 +130,3 @@ module.exports = {
   updateUserAvatar,
   getCurrentUser,
 };
-
