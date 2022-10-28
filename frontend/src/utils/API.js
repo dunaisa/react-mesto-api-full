@@ -114,7 +114,7 @@ class Api {
 }
 
 export const api = new Api({
-  url: 'http://localhost:5555',
+  url: 'https://api.memesto.nomoredomains.icu',
   headers: {
     authorization: `Bearer ${localStorage.getItem('token')}`,
     'Content-Type': 'application/json'
